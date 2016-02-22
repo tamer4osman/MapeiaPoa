@@ -1,4 +1,4 @@
-package org.mapeiapoa;
+package integration.org.mapeiapoa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +8,7 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mapeiapoa.MapeiapoaApplication;
 import org.mapeiapoa.domain.Incident;
 import org.mapeiapoa.repository.IncidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,12 @@
-package org.mapeiapoa.controller;
+package unit.org.mapeiapoa.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mapeiapoa.controller.IncidentController;
 import org.mapeiapoa.domain.Incident;
 import org.mapeiapoa.repository.IncidentRepository;
 import org.mockito.InjectMocks;
@@ -16,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -43,6 +46,9 @@ public class IncidentControllerTest {
 
     @Test
     public void shouldFindAll() throws Exception {
+        Incident incident = new Incident("01", "Testing", "", "");
+        when(repository.findAll()).thenReturn(newArrayList(incident));
+
         mockMvc.perform(get("/").contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(contains("Test"));

@@ -42,6 +42,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile "org.projectlombok:lombok:1.16.6"
+    compile 'com.google.guava:guava:19.0'
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
@@ -56,8 +57,6 @@ task wrapper(type: Wrapper) {
 
 idea {
   module {
-    testSourceDirs += file('integration')
-
     //if you prefer different SDK than the one inherited from IDEA project
     jdkName = '1.8'
   }
