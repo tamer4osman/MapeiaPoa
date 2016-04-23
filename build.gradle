@@ -11,6 +11,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'jacoco'
 
 jar {
     baseName = 'mapeia-poa'
@@ -60,4 +61,12 @@ idea {
     //if you prefer different SDK than the one inherited from IDEA project
     jdkName = '1.8'
   }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
 }
