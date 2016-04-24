@@ -13,6 +13,18 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'jacoco'
 
+sourceSets {
+    integrationTests {
+        java.srcDir file('src/test/java/integration')
+        resources.srcDir file('src/test/resources')
+    }
+
+    unitTests {
+        java.srcDir file('src/test/java/unit')
+        resources.srcDir file('src/test/resources')
+    }
+}
+
 jar {
     baseName = 'mapeia-poa'
     version =  '0.1.0'
@@ -50,6 +62,16 @@ dependencies {
     testCompile("junit:junit")
     testCompile 'com.jayway.restassured:rest-assured:2.8.0'
     testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    integrationTestsCompile sourceSets.main.output
+    integrationTestsCompile configurations.testCompile
+    integrationTestsCompile sourceSets.test.output
+    integrationTestsRuntime configurations.testRuntime
+
+    unitTestsCompile sourceSets.main.output
+    unitTestsCompile configurations.testCompile
+    unitTestsCompile sourceSets.test.output
+    unitTestsCompile configurations.testRuntime
 }
 
 task wrapper(type: Wrapper) {
@@ -69,4 +91,20 @@ jacocoTestReport {
         csv.enabled false
         html.destination "${buildDir}/jacocoHtml"
     }
+}
+
+task integrationTests(type: Test) {
+    println 'Running all integration tests'
+    testClassesDir = sourceSets.integrationTests.output.classesDir
+    classpath = sourceSets.integrationTests.runtimeClasspath
+}
+
+task unitTests(type: Test) {
+    println 'Running all unit tests'
+    testClassesDir = sourceSets.unitTests.output.classesDir
+    classpath = sourceSets.unitTests.runtimeClasspath
+}
+
+task allTests(dependsOn: [unitTests, integrationTests]) << {
+    println 'Running all tests'
 }
