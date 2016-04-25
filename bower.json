@@ -1,0 +1,7 @@
+{
+  "name": "MapeiaPOA",
+  "dependencies": {
+    "bootstrap-css-only": "^3.3.6",
+    "mithril": "^0.2.4"
+  }
+}
