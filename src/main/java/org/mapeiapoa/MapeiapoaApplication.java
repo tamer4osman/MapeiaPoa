@@ -8,14 +8,12 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@EnableAutoConfiguration
-@ComponentScan
+@SpringBootApplication
 public class MapeiapoaApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application;
+        return application.sources(MapeiapoaApplication.class);
     }
 
     public static void main(String[] args) {

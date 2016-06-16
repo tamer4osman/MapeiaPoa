@@ -8,7 +8,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'jacoco'
@@ -51,13 +51,13 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-jetty")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     compile "org.projectlombok:lombok:1.16.6"
     compile 'com.google.guava:guava:19.0'
 
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-jetty'
 
     testCompile("junit:junit")
     testCompile 'com.jayway.restassured:rest-assured:2.8.0'
