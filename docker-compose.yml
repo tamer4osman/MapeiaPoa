@@ -1,0 +1,15 @@
+version: '2'
+services:
+  db:
+    image: mongo:3.2.6
+    ports:
+      - "27017:27017"
+
+  deploy:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    links:
+      - db
