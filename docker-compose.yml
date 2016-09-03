@@ -1,13 +1,17 @@
 version: '2'
 services:
   db:
+    container_name: mongo
     image: mongo:3.2.6
     ports:
       - "27017:27017"
 
   deploy:
-    build: .
+    container_name: tomcat
+    image: tomcat:9.0.0-jre8
+    volumes:
+      - ./build/libs:/usr/local/tomcat/webapps
     ports:
       - "8080:8080"
     links:
-      - db
+      - db:mongo
