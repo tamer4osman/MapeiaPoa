@@ -8,9 +8,7 @@ services:
 
   deploy:
     container_name: tomcat
-    image: tomcat:9.0.0-jre8
-    volumes:
-      - ./build/libs:/usr/local/tomcat/webapps
+    build: .
     ports:
       - "8080:8080"
     links:
