@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapeiapoa.MapeiapoaApplication;
 import org.mapeiapoa.domain.Incident;
+import org.mapeiapoa.domain.Types;
 import org.mapeiapoa.repository.IncidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +21,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import static com.jayway.restassured.http.ContentType.JSON;
+import static common.JsonUtil.toJson;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
+import static org.mapeiapoa.domain.Types.FIRE;
+import static org.mapeiapoa.domain.Types.OVERFLOW;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -42,8 +46,8 @@ public class MapeiaPoaIntegration {
     @Before
     public void setUp() {
         repository.deleteAll();
-        incidentOne = new Incident("01", "Incident One", "1", "1");
-        incidentTwo = new Incident("02", "Incident Two", "2", "2");
+        incidentOne = new Incident("01", "Incident One", "1", "1", FIRE);
+        incidentTwo = new Incident("02", "Incident Two", "2", "2", OVERFLOW);
         RestAssured.port = serverPort;
     }
 
@@ -57,7 +61,8 @@ public class MapeiaPoaIntegration {
         .then()
             .statusCode(CREATED.value())
             .body("id", is("01"))
-            .body("description", is("Incident One"));
+            .body("description", is("Incident One"))
+            .body("type", is("FIRE"));
 
         given()
             .body(toJson(incidentTwo))
@@ -67,19 +72,16 @@ public class MapeiaPoaIntegration {
         .then()
             .statusCode(CREATED.value())
             .body("id", is("02"))
-            .body("description", is("Incident Two"));
+            .body("description", is("Incident Two"))
+            .body("type", is("OVERFLOW"));
 
         when()
             .get("/")
         .then()
             .statusCode(OK.value())
             .body("id", contains("01", "02"))
-            .body("description", contains("Incident One", "Incident Two"));
+            .body("description", contains("Incident One", "Incident Two"))
+            .body("type", contains("FIRE", "OVERFLOW"));
 
-    }
-
-    private String toJson(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
     }
 }

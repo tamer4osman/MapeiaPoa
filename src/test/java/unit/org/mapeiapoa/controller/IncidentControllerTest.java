@@ -2,11 +2,13 @@ package unit.org.mapeiapoa.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.JsonUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapeiapoa.controller.IncidentController;
 import org.mapeiapoa.domain.Incident;
+import org.mapeiapoa.domain.Types;
 import org.mapeiapoa.repository.IncidentRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,7 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static common.JsonUtil.toJson;
 import static org.hamcrest.Matchers.containsString;
+import static org.mapeiapoa.domain.Types.FIRE;
+import static org.mapeiapoa.domain.Types.OVERFLOW;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -45,7 +50,7 @@ public class IncidentControllerTest {
 
     @Test
     public void shouldFindAll() throws Exception {
-        Incident incident = new Incident("01", "Testing", "", "");
+        Incident incident = new Incident("01", "Testing", "", "", FIRE);
         when(repository.findAll()).thenReturn(newArrayList(incident));
 
         mockMvc.perform(get("/").contentType(APPLICATION_JSON))
@@ -55,7 +60,7 @@ public class IncidentControllerTest {
 
     @Test
     public void shouldTestController() throws Exception {
-        Incident incident = new Incident("01", "Testing", "", "");
+        Incident incident = new Incident("01", "Testing", "", "", OVERFLOW);
         when(repository.save(incident)).thenReturn(incident);
 
         mockMvc.perform(post("/").content(toJson(incident)).contentType(APPLICATION_JSON))
@@ -66,10 +71,5 @@ public class IncidentControllerTest {
 
     private ResultMatcher contains(String string) {
         return content().string(containsString(string));
-    }
-
-    private String toJson(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
     }
 }

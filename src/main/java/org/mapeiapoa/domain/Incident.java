@@ -16,4 +16,5 @@ public class Incident {
     private String description;
     private String latitude;
     private String longitude;
+    private Types type;
 }
