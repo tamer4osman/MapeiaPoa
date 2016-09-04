@@ -57,7 +57,7 @@ public class MapeiaPoaIntegration {
         .then()
             .statusCode(CREATED.value())
             .body("id", is("01"))
-            .body("descricao", is("Incident One"));
+            .body("description", is("Incident One"));
 
         given()
             .body(toJson(incidentTwo))
@@ -67,14 +67,14 @@ public class MapeiaPoaIntegration {
         .then()
             .statusCode(CREATED.value())
             .body("id", is("02"))
-            .body("descricao", is("Incident Two"));
+            .body("description", is("Incident Two"));
 
         when()
             .get("/")
         .then()
             .statusCode(OK.value())
             .body("id", contains("01", "02"))
-            .body("descricao", contains("Incident One", "Incident Two"));
+            .body("description", contains("Incident One", "Incident Two"));
 
     }
 

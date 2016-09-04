@@ -13,7 +13,7 @@ import org.springframework.data.annotation.Id;
 public class Incident {
     @Id
     private String id;
-    private String descricao;
+    private String description;
     private String latitude;
     private String longitude;
 }
