@@ -1,17 +1,26 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE")
     }
 }
+plugins {
+    id 'java'
+    id 'war'
+    id 'idea'
+    id 'jacoco'
+}
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-snapshot" }
+}
 
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'idea'
 apply plugin: 'spring-boot'
-apply plugin: 'jacoco'
 
 sourceSets {
     integrationTests {
@@ -30,16 +39,10 @@ jar {
     version =  '0.1.0'
 }
 
-apply plugin: 'war'
 
 war {
     baseName = 'mapeia-poa'
     version =  '0.1.0'
-}
-
-repositories {
-    mavenCentral()
-    maven { url "http://repo.spring.io/libs-snapshot" }
 }
 
 configurations {
@@ -75,7 +78,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.0'
+    gradleVersion = '2.14.1'
 }
 
 idea {
@@ -94,17 +97,25 @@ jacocoTestReport {
 }
 
 task integrationTests(type: Test) {
-    println 'Running all integration tests'
+    doFirst{ tasks.startMongo.execute() }
     testClassesDir = sourceSets.integrationTests.output.classesDir
     classpath = sourceSets.integrationTests.runtimeClasspath
+    doLast{ tasks.stopMongo.execute() }
 }
 
 task unitTests(type: Test) {
-    println 'Running all unit tests'
     testClassesDir = sourceSets.unitTests.output.classesDir
     classpath = sourceSets.unitTests.runtimeClasspath
 }
 
-task allTests(dependsOn: [unitTests, integrationTests]) << {
-    println 'Running all tests'
+task runMongo(type: Exec) {
+    commandLine 'docker', 'run', '-d', '-p', '27018:27017', '--name', 'mongo_test', 'mongo:3.2'
+}
+
+task startMongo(type: Exec, dependsOn: 'stopMongo') {
+    commandLine 'docker', 'start', 'mongo_test'
+}
+
+task stopMongo(type: Exec) {
+    commandLine 'docker', 'stop', 'mongo_test'
 }

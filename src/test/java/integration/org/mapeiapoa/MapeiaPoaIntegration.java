@@ -80,7 +80,6 @@ public class MapeiaPoaIntegration {
 
     private String toJson(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        String jsonInString = mapper.writeValueAsString(object);
-        return jsonInString;
+        return mapper.writeValueAsString(object);
     }
 }
