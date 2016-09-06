@@ -43,6 +43,7 @@ jar {
 war {
     baseName = 'mapeia-poa'
     version =  '0.1.0'
+    rootSpec.exclude("**/node_modules/**") 
 }
 
 configurations {

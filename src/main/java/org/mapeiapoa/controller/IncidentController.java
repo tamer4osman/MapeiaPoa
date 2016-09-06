@@ -16,18 +16,19 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
+@RequestMapping("/incident")
 public class IncidentController {
 
     @Autowired
     private IncidentRepository repository;
 
-    @RequestMapping(value = "/", method = GET)
+    @RequestMapping(method = GET)
     public ResponseEntity findAllIncidents() {
         List<Incident> incidents = repository.findAll();
         return new ResponseEntity(incidents, OK);
     }
 
-    @RequestMapping(value = "/", method = POST)
+    @RequestMapping(method = POST)
     public ResponseEntity createIncident(@RequestBody Incident incident) {
         Incident savedIncident = repository.save(incident);
         return new ResponseEntity(savedIncident, CREATED);

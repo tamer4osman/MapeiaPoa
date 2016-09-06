@@ -1,0 +1,22 @@
+{
+  "name": "mapeiapoa",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Lucas Falk Beier"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/tutabeier/MapeiaPoa",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/main/resources/static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-css-only": "^3.3.6",
+    "mithril": "^0.2.4"
+  }
+}

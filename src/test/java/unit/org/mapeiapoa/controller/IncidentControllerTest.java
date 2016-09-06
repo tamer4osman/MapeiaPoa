@@ -53,7 +53,7 @@ public class IncidentControllerTest {
         Incident incident = new Incident("01", "Testing", "", "", FIRE);
         when(repository.findAll()).thenReturn(newArrayList(incident));
 
-        mockMvc.perform(get("/").contentType(APPLICATION_JSON))
+        mockMvc.perform(get("/incident").contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(contains("Test"));
     }
@@ -63,7 +63,7 @@ public class IncidentControllerTest {
         Incident incident = new Incident("01", "Testing", "", "", OVERFLOW);
         when(repository.save(incident)).thenReturn(incident);
 
-        mockMvc.perform(post("/").content(toJson(incident)).contentType(APPLICATION_JSON))
+        mockMvc.perform(post("/incident").content(toJson(incident)).contentType(APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(contains("01"))
                 .andExpect(contains("Testing"));

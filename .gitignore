@@ -93,6 +93,6 @@ gradle-app.setting
 # Cache of project
 .gradletasknamecache
 
-node_modules/
+src/main/webapp/node_modules/
 src/main/webapp/bower_components/
-src/main/webapp/assets/
+src/main/webapp/dist/

@@ -57,7 +57,7 @@ public class MapeiaPoaIntegration {
             .body(toJson(incidentOne))
             .contentType(JSON)
         .when()
-            .post("/")
+            .post("/incident")
         .then()
             .statusCode(CREATED.value())
             .body("id", is("01"))
@@ -68,7 +68,7 @@ public class MapeiaPoaIntegration {
             .body(toJson(incidentTwo))
             .contentType(JSON)
         .when()
-            .post("/")
+            .post("/incident")
         .then()
             .statusCode(CREATED.value())
             .body("id", is("02"))
@@ -76,7 +76,7 @@ public class MapeiaPoaIntegration {
             .body("type", is("OVERFLOW"));
 
         when()
-            .get("/")
+            .get("/incident")
         .then()
             .statusCode(OK.value())
             .body("id", contains("01", "02"))
